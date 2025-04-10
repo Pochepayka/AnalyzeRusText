@@ -1,0 +1,58 @@
+
+h1, p, h3, h2 {
+    margin: 0;
+    padding: 0;
+  }
+
+  .graphematic-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+
+  
+  .graphematic-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
+    vertical-align: top;
+  }
+  
+  .token-cell {
+    font-weight: 500;
+    width: 20%;
+  }
+  
+  .space-char {
+    color: #888;
+    font-style: italic;
+  }
+  
+  .descriptors-cell {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  
+  .descriptor {
+    background-color: #e1f5fe;
+    padding: 3px 6px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    white-space: nowrap;
+  }
+  
+  .descriptor.pun, .descriptor.sent_end {
+    background-color: #ffecb3;
+  }
+  
+  .descriptor.del, .descriptor.spc {
+    background-color: #ffcdd2;
+  }
+  
+  .descriptor.rle {
+    background-color: #c8e6c9;
+  }
+  
+  .descriptor.beg, .descriptor.nam {
+    background-color: #bbdefb;
+  }
