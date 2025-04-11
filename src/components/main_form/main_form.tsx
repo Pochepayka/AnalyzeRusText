@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState ,CSSProperties} from 'react';
+
+import styled from '@emotion/styled';
+
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
@@ -53,10 +56,10 @@ const Home = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h1 style={styles.title}>Анализатор русского текста</h1>
-        <p style={styles.subtitle}>Выберите тип анализа и введите текст</p>
+    <div style={global_styles.container}>
+      <div style={{...global_styles.card, maxWidth:"800px"}}>
+        <h1 style={global_styles.title}>Анализатор русского текста</h1>
+        <p style={global_styles.subtitle}>Выберите тип анализа и введите текст</p>
         
         <div style={styles.formGroup}>
           <label htmlFor="text-input" style={styles.label}>
@@ -118,15 +121,89 @@ const Home = () => {
   );
 };
 
-const styles = {
+
+const table_styles = {
+  
+  tableContainer: {
+    marginTop: '30px',
+    overflowX: 'auto' as const,
+  },
+  table: {
+    width: '100%',
+    borderCollapse: 'collapse' as const,
+    borderRadius: '8px',
+    overflow: 'hidden',
+  },
+  tableHeader: {
+    backgroundColor: '#f0f2f5',
+    padding: '12px 15px',
+    textAlign: 'left' as const,
+    fontWeight: 600 as const,
+    fontSize: '16px',
+    color: '#2d3748',
+  },
+  tableRow: {
+    backgroundColor: '#ffffff',
+    borderBottom: '1px solid #e2e8f0',
+  },
+  tableRowAlt: {
+    backgroundColor: '#f8fafc',
+    borderBottom: '1px solid #e2e8f0',
+  },
+  tokenCell: {
+    padding: '12px 15px',
+    fontSize: '15px',
+    color: '#2d3748',
+    fontWeight: 500 as const,
+  },
+  cell: {
+    padding: '12px 15px',
+    fontSize: '14px',
+    color: '#2d3748',
+  },
+  tagsContainer: {
+    display: 'flex',
+    flexWrap: 'wrap' as const,
+    gap: '4px',
+  },
+  tag: {
+    padding: '4px 8px',
+    borderRadius: '4px',
+    fontSize: '14px',
+    color: '#2d3748',
+    whiteSpace: 'nowrap' as const,
+  },
+  emptyValue: {
+    color: '#a0aec0',
+    fontStyle: 'italic' as const,
+  },
+};
+
+const global_styles :{
+  container: CSSProperties;
+  card: CSSProperties;
+  title: CSSProperties;
+  subtitle: CSSProperties;
+  mainText: CSSProperties;
+  grayBlok: CSSProperties;
+  blueBlok: CSSProperties;
+  errorContainer: CSSProperties;
+  errorCard: CSSProperties;
+  errorTitle: CSSProperties;
+  backButton: CSSProperties;
+
+}={
   container: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start', // Изменено с 'center' на 'flex-start' для корректного скролла
     marginTop: "60px",
-    minHeight: 'calc(100vh - 80px)',
+    minHeight: 'calc(100vh - 60px - 281px)',
     backgroundColor: '#f5f7fa',
     padding: '20px',
+    width: "100%",
+    boxSizing: 'border-box', // Добавлено для корректного расчета ширины с padding
+    overflowX: 'hidden' // Запрещаем горизонтальный скролл
   },
   card: {
     backgroundColor: '#ffffff',
@@ -135,6 +212,9 @@ const styles = {
     padding: '40px',
     width: '100%',
     maxWidth: '800px',
+
+    boxSizing: 'border-box', // Добавлено для корректного расчета ширины с padding
+    //margin: '0 20px' // Добавляем отступы по бокам на мобильных устройствах
   },
   title: {
     fontSize: '28px',
@@ -149,6 +229,64 @@ const styles = {
     marginBottom: '32px',
     textAlign: 'center' as const,
   },
+  mainText: {
+    
+  },
+  grayBlok:{
+    backgroundColor: "#f8f9fa",
+    padding: "15px",
+    borderRadius: "5px",
+    marginBottom: "20px",
+  },
+  blueBlok:{
+    backgroundColor: '#edf2f7', 
+    padding: '12px', 
+    borderRadius: '6px',
+    overflowX: 'auto',
+    marginBottom: "20px",
+  },
+  errorContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '60px',
+    minHeight: 'calc(100vh - 80px)',
+    backgroundColor: '#f5f7fa',
+    padding: '20px',
+  },
+  errorCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: '12px',
+    boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+    padding: '40px',
+    width: '100%',
+    maxWidth: '800px',
+    textAlign: 'center' as const,
+  },
+  errorTitle: {
+    color: '#2d3748',
+    fontSize: '24px',
+    marginBottom: '20px',
+  },
+  backButton: {
+    padding: '12px 24px',
+    backgroundColor: '#4299e1',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    fontWeight: 500 as const,
+    transition: 'background-color 0.2s',
+    // ':hover': {
+    //   backgroundColor: '#3182ce',
+    // },
+  },
+
+}
+
+const styles = {
+  
   formGroup: {
     marginBottom: '24px',
   },
@@ -161,14 +299,17 @@ const styles = {
   },
   textarea: {
     width: '100%',
+    boxSizing: 'border-box' as const, // Важное исправление
     padding: '12px',
     border: '1px solid #e2e8f0',
     borderRadius: '8px',
+
+    fontFamily: 'inherit', // Для согласованности шрифтов
     fontSize: '16px',
     resize: 'vertical' as const,
     minHeight: '150px',
     transition: 'border-color 0.2s',
-    ':focus': {
+    '&:focus': {
       outline: 'none',
       borderColor: '#4299e1',
       boxShadow: '0 0 0 3px rgba(66, 153, 225, 0.2)',
@@ -180,13 +321,14 @@ const styles = {
     border: '1px solid #e2e8f0',
     borderRadius: '8px',
     fontSize: '16px',
+    fontFamily: 'inherit', // Для согласованности шрифтов
     backgroundColor: '#ffffff',
-    transition: 'border-color 0.2s',
-    ':focus': {
-      outline: 'none',
-      borderColor: '#4299e1',
-      boxShadow: '0 0 0 3px rgba(66, 153, 225, 0.2)',
-    },
+    //transition: 'border-color 0.2s',
+    // '&:focus': {
+    //   outline: 'none',
+    //   borderColor: '#4299e1',
+    //   boxShadow: '0 0 0 3px rgba(66, 153, 225, 0.2)',
+    // },
   },
   button: {
     width: '100%',
@@ -239,3 +381,4 @@ const styles = {
 };
 
 export default Home;
+export {global_styles, table_styles};

@@ -11,6 +11,9 @@ import SintaxisScool from './components/sintaxis_scool/sintaxis_scool.tsx';
 import SintaxisTree from './components/sintaxis_tree/sintaxis_tree.tsx';
 import Semantic from './components/semantic_table/semantic_table.tsx';
 import Spliter from './components/spliter_table/spliter_table.tsx';
+import NotFoundPage from './components/NotFound/NotFound.tsx';
+import Help from './components/Help/Help.tsx';
+import About from './components/About/About.tsx';
 
 function App() {
   const [count, setCount] = useState(0);
@@ -30,6 +33,9 @@ function App() {
           <Route path="/analysis/BuildSintaxisTree" element={<SintaxisTree />} />
           <Route path="/analysis/SemanticAnalize" element={<Semantic />} />
           <Route path="/analysis/Spliter" element={<Spliter />} />
+          <Route path="/help" element={<Help />} />
+          <Route path="/about" element={<About />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>      
         <Footer/>
       </div>

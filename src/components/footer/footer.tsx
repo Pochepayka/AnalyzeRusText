@@ -19,8 +19,8 @@ const Footer = () => {
           <ul style={styles.list}>
             <li style={styles.listItem}>
               <span style={styles.label}>Email:</span>
-              <a href="mailto:info@textanalyzer.ru" style={styles.link}>
-                info@textanalyzer.ru
+              <a href="mailto:pochepayka@gmail.com" style={styles.link}>
+                pochepayka@gmail.com
               </a>
             </li>
             <li style={styles.listItem}>
@@ -39,9 +39,9 @@ const Footer = () => {
         <div style={styles.section}>
           <h3 style={styles.heading}>Социальные сети</h3>
           <div style={styles.socialLinks}>
-            <a href="#" style={styles.socialLink}>VK</a>
-            <a href="#" style={styles.socialLink}>Telegram</a>
-            <a href="#" style={styles.socialLink}>GitHub</a>
+            <a href="https://vk.com/vladimir_potsepai" style={styles.socialLink}>VK</a>
+            <a href="https://t.me/Pochepayka" style={styles.socialLink}>Telegram</a>
+            <a href="https://github.com/Pochepayka" style={styles.socialLink}>GitHub</a>
           </div>
         </div>
       </div>
