@@ -47,10 +47,7 @@ const NotFoundPage = () => {
           
           <button
             style={{ 
-              ...global_styles.backButton,
-              backgroundColor: 'transparent',
-              color: '#4299e1',
-              border: '1px solid #4299e1',
+              ...global_styles.whiteButton,
             }}
             onClick={() => navigate(-1)}
           >

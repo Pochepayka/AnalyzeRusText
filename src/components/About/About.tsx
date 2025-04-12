@@ -15,7 +15,7 @@ const About: React.FC = () => {
         <div style={{...global_styles.grayBlok, marginTop:"0px"}}>
           
           <div style={{ marginBottom: '24px', marginTop:"0px" }}>
-            <h3 style={{ color: '#2d3748', fontSize: '18px', marginBottom: '8px', marginTop:"0px" }}>Библиотека pylem</h3>
+            <h3 style={{ ...global_styles.Title3 }}>Библиотека pylem</h3>
             <p style={{ marginBottom: '12px' }}>
               В проекте используется модифицированная версия библиотеки <strong>pylem </strong> 
               для морфологического анализа русскоязычных текстов.
@@ -31,7 +31,7 @@ const About: React.FC = () => {
           </div>
 
           <div style={{ marginBottom: '24px' }}>
-            <h3 style={{ color: '#2d3748', fontSize: '18px', marginBottom: '8px' }}>Ресурсы проекта AOT.RU</h3>
+            <h3 style={{ ...global_styles.Title3  }}>Ресурсы проекта AOT.RU</h3>
             <p style={{ marginBottom: '12px' }}>
               В системе используются языковые модели и данные из проекта <strong>AOT.RU</strong> - 
               одного из наиболее полных открытых морфологических словарей русского языка.
@@ -42,7 +42,7 @@ const About: React.FC = () => {
           </div>
 
           <div>
-            <h3 style={{ color: '#2d3748', fontSize: '18px', marginBottom: '8px' }}>Собственный аналитический модуль</h3>
+            <h3 style={{...global_styles.Title3 }}>Собственный аналитический модуль</h3>
             <p style={{ marginBottom: '12px' }}>
               Разработанный на <strong>Python</strong> программный модуль обеспечивает:
             </p>
@@ -59,7 +59,7 @@ const About: React.FC = () => {
         <h2 style={{ ...global_styles.errorTitle, marginBottom: '16px' }}>API системы</h2>
         <div style={{...global_styles.grayBlok, marginTop:"0px"}}>
           
-            <h3 style={{ color: '#2d3748', fontSize: '18px', marginBottom: '8px', marginTop:"0px" }}>
+            <h3 style={{ ...global_styles.Title3  }}>
             Пример работы с API грамматического анализа</h3>
 
             <div style={{ ...global_styles.blueBlok}}>
@@ -156,8 +156,7 @@ const About: React.FC = () => {
           </button>
           <button
             style={{ 
-              ...global_styles.backButton,
-              backgroundColor: '#38a169',
+              ...global_styles.greenButton,
             //   '&:hover': {
             //     backgroundColor: '#2f855a',
             //   } as React.CSSProperties

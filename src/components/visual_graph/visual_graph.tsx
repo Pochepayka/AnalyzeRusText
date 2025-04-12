@@ -135,7 +135,17 @@ const GraphVisualizer: React.FC<GraphVisualizerProps> = ({
     };
   }, [nodesData, edgesData]);
 
-  return <div ref={containerRef} style={{ width: '100%', height: '600px', border: '1px solid #ccc' }} />;
+  return (
+    <div 
+      ref={containerRef} 
+      style={{ 
+        width: '100%', 
+        height: '600px', 
+        border: '1px solid #ccc',
+        backgroundColor: 'white' // Добавьте фон для сохранения
+      }} 
+    />
+  );
 };
 
 export default GraphVisualizer;

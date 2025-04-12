@@ -1,4 +1,4 @@
-import React, { useState ,CSSProperties} from 'react';
+import React, { useState ,CSSProperties,useRef} from 'react';
 
 import styled from '@emotion/styled';
 
@@ -9,6 +9,7 @@ const Home = () => {
   const [optionValue, setOptionValue] = useState('GraphematicAnalyze');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   const options = [
@@ -19,6 +20,36 @@ const Home = () => {
     { value: 'SemanticAnalize', label: 'Семантический анализ' },
     { value: 'Spliter', label: 'Разделение на клаузы' },
   ];
+
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Проверяем тип файла
+    if (file.type !== 'text/plain' && !file.name.endsWith('.txt')) {
+      setError('Пожалуйста, загрузите файл в формате .txt');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const content = event.target?.result as string;
+        setText(content);
+        setError(null);
+      } catch (err) {
+        setError('Ошибка чтения файла');
+      }
+    };
+    reader.onerror = () => {
+      setError('Ошибка при чтении файла');
+    };
+    reader.readAsText(file);
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
 
   const handleAnalyze = async () => {
     try {
@@ -61,10 +92,19 @@ const Home = () => {
         <h1 style={global_styles.title}>Анализатор русского текста</h1>
         <p style={global_styles.subtitle}>Выберите тип анализа и введите текст</p>
         
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileUpload}
+          accept=".txt,text/plain"
+          style={{ display: 'none' }}
+        />
+
         <div style={styles.formGroup}>
           <label htmlFor="text-input" style={styles.label}>
-            Текст для анализа:
+              Текст для анализа:
           </label>
+          
           <textarea
             id="text-input"
             value={text}
@@ -73,7 +113,20 @@ const Home = () => {
             placeholder="Введите или вставьте текст здесь..."
             rows={8}
           />
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0px' }}>
+            
+          <button
+            onClick={triggerFileInput}
+            style={{...styles.uploadButton,backgroundColor: 'transparent',
+              color: '#4299e1',
+              border: '1px solid #4299e1',}}
+            type="button"
+          >
+            Загрузить из файла (.txt)
+          </button>
         </div>
+        </div>
+        
 
         <div style={styles.formGroup}>
           <label htmlFor="analysis-type" style={styles.label}>
@@ -182,6 +235,10 @@ const table_styles = {
 const global_styles :{
   container: CSSProperties;
   card: CSSProperties;
+  Title1: CSSProperties;
+  Title2: CSSProperties;
+  Title3: CSSProperties;
+  Title4: CSSProperties;
   title: CSSProperties;
   subtitle: CSSProperties;
   mainText: CSSProperties;
@@ -192,13 +249,18 @@ const global_styles :{
   errorTitle: CSSProperties;
   backButton: CSSProperties;
 
+  greenButton: CSSProperties;
+  redButton:CSSProperties;
+  whiteButton:CSSProperties;
+
+
 }={
   container: {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'flex-start', // Изменено с 'center' на 'flex-start' для корректного скролла
     marginTop: "60px",
-    minHeight: 'calc(100vh - 60px - 281px)',
+    minHeight: 'calc(100vh - 60px - 280px)',
     backgroundColor: '#f5f7fa',
     padding: '20px',
     width: "100%",
@@ -211,10 +273,35 @@ const global_styles :{
     boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
     padding: '40px',
     width: '100%',
-    maxWidth: '800px',
+    maxWidth: '1200px',
 
     boxSizing: 'border-box', // Добавлено для корректного расчета ширины с padding
     //margin: '0 20px' // Добавляем отступы по бокам на мобильных устройствах
+  },
+  Title1: {
+    fontSize: '28px',
+    color: '#2d3748',
+    marginBottom: '8px',
+    marginTop: "0px",
+    textAlign: 'center' as const,
+  },
+  Title2: {
+    color: '#2d3748',
+    fontSize: '24px',
+    marginBottom: '20px',
+  },
+  Title3: {
+    color: '#2d3748', 
+    fontSize: '18px', 
+    marginBottom: '8px', 
+    marginTop:"0px"
+  },
+  Title4: {
+    fontSize: '28px',
+    color: '#2d3748',
+    marginBottom: '8px',
+    marginTop: "0px",
+    textAlign: 'center' as const,
   },
   title: {
     fontSize: '28px',
@@ -283,10 +370,73 @@ const global_styles :{
     // },
   },
 
+  whiteButton: {
+    backgroundColor: 'transparent',
+    color: '#4299e1',
+    border: '1px solid #4299e1',
+    padding: '12px 24px',
+    // backgroundColor: '#4299e1',
+    // color: 'white',
+    // border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    fontWeight: 500 as const,
+    transition: 'background-color 0.2s',
+    // ':hover': {
+    //   backgroundColor: '#3182ce',
+    // },
+  },
+
+  greenButton: {
+    padding: '12px 24px',
+    backgroundColor: '#38a169',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    fontWeight: 500 as const,
+    transition: 'background-color 0.2s',
+    // ':hover': {
+    //   backgroundColor: '#3182ce',
+    // },
+  },
+
+  redButton: {
+    padding: '12px 24px',
+    backgroundColor: '#e53e3e',
+    color: 'white',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    fontSize: '16px',
+    fontWeight: 500 as const,
+    transition: 'background-color 0.2s',
+    // ':hover': {
+    //   backgroundColor: '#3182ce',
+    // },
+  },
+
+
 }
 
 const styles = {
-  
+  uploadButton: {
+    
+    padding: '8px 12px',
+    backgroundColor: '#edf2f7',
+    color: '#2d3748',
+    border: '1px solid #cbd5e0',
+    borderRadius: '6px',
+    fontSize: '14px',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+    ':hover': {
+      backgroundColor: '#e2e8f0',
+    },
+
+  },
   formGroup: {
     marginBottom: '24px',
   },

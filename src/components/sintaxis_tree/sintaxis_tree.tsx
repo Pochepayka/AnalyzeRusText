@@ -1,5 +1,8 @@
 // SintaxisTree.tsx
-import React from 'react';
+import React, { useRef } from 'react';
+
+
+import { toPng, toSvg } from 'html-to-image';
 import { useLocation } from 'react-router-dom';
 
 import Heading from '../heading/heading.tsx';
@@ -9,6 +12,7 @@ import { global_styles } from '../main_form/main_form.tsx';
 
 const SintaxisTree = () => {
   const { state } = useLocation();
+  const graphContainerRef = useRef<HTMLDivElement>(null);
 
   if (!state || !state?.data?.graphData) {
     return (
@@ -257,6 +261,51 @@ const SintaxisTree = () => {
     ]
   };
 
+  const handleSaveGraph = async () => {
+    if (!graphContainerRef.current) return;
+    
+    try {
+      const dataUrl = await toPng(graphContainerRef.current, {
+        quality: 1,
+        pixelRatio: 2, // Для лучшего качества
+        filter: (node) => {
+          // Исключаем кнопку из изображения
+          return !(node instanceof HTMLElement && node.classList.contains('save-button'));
+        }
+      });    
+      
+      const link = document.createElement('a');
+      link.download = 'syntax-tree.png';
+      link.href = dataUrl;
+      link.click();
+    } catch (err) {
+      console.error('Ошибка при сохранении графа:', err);
+    }
+  };
+
+  const handleSaveAsSvg = async () => {
+    if (!graphContainerRef.current) return;
+    
+    const dataUrl = await toSvg(graphContainerRef.current);
+    const link = document.createElement('a');
+    link.download = 'syntax-tree.svg';
+    link.href = dataUrl;
+    link.click();
+  };
+
+  const handleSaveJson = () => {
+    const jsonStr = JSON.stringify(state.data.graphData, null, 2);
+    const blob = new Blob([jsonStr], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'syntax-tree.json';
+    link.click();
+    
+    URL.revokeObjectURL(url);
+  };
+
 
   const headingText = "Построение синтаксического дерева";
 
@@ -269,15 +318,70 @@ const SintaxisTree = () => {
           text={state?.text} 
         />
 
-        <GraphVisualizer
-          data = {state.data.graphData}
-        /> 
+        <div ref={graphContainerRef}>
+          <GraphVisualizer data={state.data.graphData} />
+        </div>
+        <h3 style={{ ...global_styles.errorTitle,//color: '#2d3748', fontSize: '18px',
+          marginBottom: '0px', marginTop:"30px",
+          display: 'flex', 
+          justifyContent: 'center',  }}>
+          Вы можете экспортировать результат!
+        </h3>
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          marginTop: '20px',
+          gap: '16px'
+        }}>
+        
+
+          <button onClick={handleSaveGraph} style={{...global_styles.backButton,
+              // backgroundColor: 'transparent',
+              // color: '#4299e1',
+              // border: '1px solid #4299e1',
+            }}
+              >
+            PNG
+          </button>
+          <button onClick={handleSaveAsSvg} style={{...global_styles.backButton,
+              // backgroundColor: 'transparent',
+              // color: '#4299e1',
+              // border: '1px solid #4299e1',
+            }}
+              >
+            SVG
+          </button>
+          <button onClick={handleSaveJson} style={{...global_styles.backButton,
+              // backgroundColor: 'transparent',
+              // color: '#4299e1',
+              // border: '1px solid #4299e1',
+            }}
+              >
+            JSON
+          </button>
+        </div>
+
 
 
 
       </div>
     </div>
   );
+};
+
+const styles = {
+  saveButton: {
+    padding: '8px 16px',
+    backgroundColor: '#4299e1',
+    color: 'white',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontSize: '14px',
+    ':hover': {
+      backgroundColor: '#3182ce'
+    }
+  }
 };
 
 

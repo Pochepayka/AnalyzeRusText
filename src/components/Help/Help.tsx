@@ -15,7 +15,7 @@ const Help: React.FC = () => {
           
         <div style={global_styles.grayBlok}>
           <div style={{ marginBottom: '24px', marginTop:"0px" }}>
-            <h3 style={{ color: '#2d3748', fontSize: '18px', marginBottom: '8px', marginTop:"0px" }}>1. Графематический анализ</h3>
+            <h3 style={{ ...global_styles.Title3 }}>1. Графематический анализ</h3>
             <p style={{ marginBottom: '12px' }}>
               Разбивает текст на токены (слова, знаки препинания). Пример вывода:
             </p>
@@ -35,7 +35,7 @@ const Help: React.FC = () => {
           </div>
 
           <div style={{ marginBottom: '24px' }}>
-            <h3 style={{ color: '#2d3748', fontSize: '18px', marginBottom: '8px' }}>2. Морфологический анализ</h3>
+            <h3 style={{ ...global_styles.Title3  }}>2. Морфологический анализ</h3>
             <p style={{ marginBottom: '12px' }}>
               Определяет грамматические характеристики слов. Основные дескрипторы:
             </p>
@@ -49,7 +49,7 @@ const Help: React.FC = () => {
           </div>
 
           <div style={{ marginBottom: '0px' }}>
-            <h3 style={{ color: '#2d3748', fontSize: '18px', marginBottom: '8px' }}>3. Синтаксический анализ</h3>
+            <h3 style={{ ...global_styles.Title3  }}>3. Синтаксический анализ</h3>
             <p style={{ marginBottom: '12px' }}>
               Определяет связи между словами в предложении. Пример вывода:
             </p>
@@ -71,14 +71,14 @@ const Help: React.FC = () => {
         <h2 style={{ ...global_styles.errorTitle, marginBottom: '16px', marginTop:"0px" }}>Форматы ввода/вывода</h2>
         <div style={{...global_styles.grayBlok, marginBottom:"0px"}}>
           
-          <h3 style={{ color: '#2d3748', fontSize: '18px', marginBottom: '8px' }}>Входные данные:</h3>
+          <h3 style={{ ...global_styles.Title3 }}>Входные данные:</h3>
           <ul style={{ marginBottom: '16px', paddingLeft: '20px' }}>
             <li style={{ marginBottom: '6px' }}>Простой текст (до 5000 символов)</li>
             <li style={{ marginBottom: '6px' }}>Поддерживается кириллица и пунктуация</li>
             <li style={{ marginBottom: '6px' }}>Каждое предложение на новой строке</li>
           </ul>
 
-          <h3 style={{ color: '#2d3748', fontSize: '18px', marginBottom: '8px' }}>Выходные данные:</h3>
+          <h3 style={{ ...global_styles.Title3  }}>Выходные данные:</h3>
           <ul style={{ marginBottom: '0px', paddingLeft: '20px' }}>
             <li style={{ marginBottom: '6px' }}>JSON-структура с результатами анализа</li>
             <li style={{ marginBottom: '6px' }}>Визуализация синтаксического дерева</li>
@@ -100,8 +100,7 @@ const Help: React.FC = () => {
           </button>
           <button
             style={{ 
-              ...global_styles.backButton,
-              backgroundColor: '#e53e3e',
+              ...global_styles.redButton,
             //   ':hover': {
             //     backgroundColor: '#c53030',
             //   } as React.CSSProperties

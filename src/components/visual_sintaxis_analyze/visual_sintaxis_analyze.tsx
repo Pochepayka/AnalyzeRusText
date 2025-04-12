@@ -46,7 +46,7 @@ const SyntaxVisualizer: React.FC<SyntaxVisualizerProps> = ({
     const underlineOffset = 25; // Подчеркивание ниже текста
     const connectionOffset = 10;
      
-    setHeight(lineHeight * tokens.length/maxTokensPerLine);
+    setHeight(lineHeight * (1+(tokens.length/maxTokensPerLine)));
 
     // Разбиваем токены на строки
     const lines: Token[][] = [];
@@ -131,42 +131,80 @@ const SyntaxVisualizer: React.FC<SyntaxVisualizerProps> = ({
       });
     });
 
-    // Рисуем связи между токенами (остается без изменений)
     links.forEach((link, i) => {
       const source = tokenPositions[link.from];
       const target = tokenPositions[link.to];
-
+    
       if (!source || !target) return;
-
+    
       // Смещение для избежания наложения связей
       const level = i % 3;
       const offset = connectionOffset * (level + 1);
-
+      const lineColor = getLinkColor(link.type); // Функция для определения цвета по типу связи
+    
       // Создаем кривую Безье для связи
       const lineGenerator = d3.line<[number, number]>()
         .curve(d3.curveBasis);
-
+    
       const points: [number, number][] = [
         [source.x, source.y + underlineOffset],
         [source.x, source.y + underlineOffset + offset],
         [target.x, target.y + underlineOffset + offset],
         [target.x, target.y + underlineOffset],
       ];
-
+    
       // Рисуем линию связи
-      svg.append('path')
+      const path = svg.append('path')
         .attr('d', lineGenerator(points))
         .attr('fill', 'none')
-        .attr('stroke', 'gray')
-        .attr('stroke-width', 1);
-
-      // Рисуем стрелку
-      svg.append('path')
-        .attr('d', `M${target.x - 5},${target.y + underlineOffset - 5} L${target.x},${target.y + underlineOffset} L${target.x - 5},${target.y + underlineOffset + 5}`)
-        .attr('fill', 'none')
-        .attr('stroke', 'gray')
-        .attr('stroke-width', 1);
+        .attr('stroke', lineColor)
+        .attr('stroke-width', 2)
+        .attr('stroke-opacity', 0.8);
+    
+      // Рассчитываем точку на кривой для размещения стрелки (90% от длины)
+      const pathLength = path.node()?.getTotalLength() || 0;
+      const arrowPoint = path.node()?.getPointAtLength(pathLength * 0.9);
+    
+      if (arrowPoint) {
+        // Рассчитываем угол наклона кривой в точке стрелки
+        const tangent = path.node()?.getPointAtLength(pathLength * 0.9 - 5);
+        const angle = tangent ? Math.atan2(arrowPoint.y - tangent.y, arrowPoint.x - tangent.x) * 180 / Math.PI : 0;
+    
+        // Рисуем стрелку как маркер на линии
+        svg.append('path')
+          .attr('d', 'M0,0 L-8,-4 L-8,4 Z') // Форма стрелки (треугольник)
+          .attr('fill', lineColor)
+          .attr('stroke', 'none')
+          .attr('transform', `translate(${arrowPoint.x},${arrowPoint.y}) rotate(${angle})`)
+          .attr('opacity', 0.8);
+      }
+    
+      // // Добавляем подпись типа связи
+      // if (link.type) {
+      //   const labelPoint = path.node()?.getPointAtLength(pathLength * 0.5);
+      //   if (labelPoint) {
+      //     svg.append('text')
+      //       .attr('x', labelPoint.x)
+      //       .attr('y', labelPoint.y - 5)
+      //       .attr('text-anchor', 'middle')
+      //       .attr('font-size', '10px')
+      //       .attr('fill', lineColor)
+      //       .text(link.type);
+      //   }
+      // }
     });
+    
+    // Функция для определения цвета связи по типу
+    function getLinkColor(type: string): string {
+      const colors: Record<string, string> = {
+        'subject': '#3182ce',    // синий
+        'object': '#dd6b20',     // оранжевый
+        'predicate': '#e53e3e',  // красный
+        'modifier': '#38a169',   // зеленый
+        'default': '#718096'     // серый
+      };
+      return colors[type.toLowerCase()] || colors['default'];
+    }
 
   }, [tokens, links, width, height]);
 

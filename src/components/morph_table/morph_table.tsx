@@ -32,10 +32,17 @@ const Morph = () => {
   const getValueColor = (value: string, category: string) => {
     const valueHashes: Record<string, Record<string, string>> = {
       'case': {
-        'nomn': '#e1f5fe', 'gent': '#bbdefb', 'datv': '#90caf9',
-        'accs': '#64b5f6', 'ablt': '#42a5f5', 'loct': '#2196f3',
-        'voct': '#1e88e5'
+      'nomn': '#e7f4fb', // Светлый голубой
+      'gent': '#b3e0ea', // Нежный голубоватый
+      'datv': '#81d4fa', // Мягкий голубой
+      'accs': '#a3c4e1', // Более осветленный спокойный голубовато-синий
+      'ablt': '#4fc3f7', // Осветленный светло-синий
+      'loct': '#63c3f1', // Более осветленный яркий, но нежный синий
+      'voct': '#1e88e5'  // Осветленный более насыщенный глубокий синий
       },
+
+
+
       'number': {
         'sing': '#f1f8e9', 'plur': '#dcedc8'
       },
@@ -64,23 +71,26 @@ const Morph = () => {
         'imperf': '#B3E5FC'   // Нежный аквамарин (несовершенный)
       },
 
-      'pos': {
-        'NOUN': '#FF8A80',          // Ярко-красный (существительные)
-        'VERB': '#FF5252',          // Акцентный красный (глаголы)
-        'ADJF': '#FF1744',          // Насыщенный красный (прилагательные)
-        'ADJF_SHORT': '#D50000',    // Глубокий красный (краткие прил.)
-        'ADVB': '#FF6E40',          // Оранжево-красный (наречия)
-        'INFI': '#FF3D00',          // Интенсивный красный (инфинитивы)
-        'NPRO': '#FF9E80',          // Светло-коралловый (местоимения)
-        'PREP': '#FF7043',          // Тёплый оранжево-красный (предлоги)
-        'CONJ': '#FFAB91',          // Мягкий персиковый (союзы)
-        'PARTICIPLE': '#E53935',    // Тёмно-красный (причастия)
-        'PARTICIPLE_SHORT': '#EF5350', // Светло-алый (краткие прич.)
-        'ADVB_PARTICIPLE': '#D32F2F',  // Бордовый (деепричастия)
-        'PART': '#F44336',          // Классический красный (частицы)
-        'NOUN_ADJF': '#FF867C',     // Розово-красный (сущ.+прил.)
-        'NPRO_ADJF': '#FF5E5B'      // Кораллово-красный (мест.+прил.)
-      },
+      "pos" : {
+        'NOUN': '#F2A6A6',          // Нежный светлый розовый
+        'VERB': '#E78F8F',          // Тёплый коралловый
+        'ADJF': '#D77C7C',          // Тёплый розовато-коричневый
+        'ADJF_SHORT': '#E6B2B2',    // Светлый пудровый
+        'ADVB': '#E28989',          // Нежный розовато-бежевый
+        'INFI': '#D87171',          // Приглушённый терракотовый
+        'NPRO': '#F5A2A2',          // Очень светлый розовый
+        'PREP': '#E6B3B3',          // Светлый серовато-розовый
+        'CONJ': '#DFA0A0',          // Светлый розово-бежевый
+        'PARTICIPLE': '#C46969',    // Приглушенный красный
+        'PARTICIPLE_SHORT': '#C56666', // Тёплый розово-коричневый
+        'ADVB_PARTICIPLE': '#B15858',  // Нежный бордовый
+        'PART': '#F1B3B3',          // Светлый пыльно-розовый
+        'NOUN_ADJF': '#E79A9A',     // Нежный розовый (сущ.+прил.)
+        'NPRO_ADJF': '#F2C2C2'      // Очень светлый бежевато-розовый (мест.+прил.)
+      }
+      
+      
+      ,
       'default': {'default':'#e1f5fe'}
     };
     
@@ -108,7 +118,7 @@ const Morph = () => {
     if (!value || value.length === 0) return <span style={table_styles.emptyValue}>[НЕТ]</span>;
     
     return value.map((tag, i) => (
-      <div style={table_styles.tagsContainer}>
+      <div style={value.length != i+1 ?  {...table_styles.tagsContainer, marginBottom:"5px"}:{...table_styles.tagsContainer,marginBottom:"0px"} }>
           <span 
             key={i} 
             style={{
