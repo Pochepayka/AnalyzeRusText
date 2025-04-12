@@ -34,13 +34,11 @@ const GraphVisualizer: React.FC<GraphVisualizerProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const networkRef = useRef<Network | null>(null);
 
-  // Получаем данные с защитой от undefined
   const { nodes: nodesData = [], edges: edgesData = [] } = data || {};
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Создаем узлы
     const nodes = new DataSet<Node>(
       nodesData.map((node): Node => ({
         id: node.id,
@@ -58,20 +56,62 @@ const GraphVisualizer: React.FC<GraphVisualizerProps> = ({
           }
         },
         title: `${node.pos}${node.label ? `: ${node.label}` : ''}`,
-        font: { color: '#000000' },
+        font: { 
+          color: '#000000',
+          size: 16, // Увеличенный базовый размер шрифта
+          face: 'Arial',
+          strokeWidth: 3, // Более толстая обводка
+          strokeColor: '#ffffff',
+          bold: {
+            color: '#000000',
+            size: 16,
+            vadjust: 0,
+            mod: 'bold'
+          }
+        },
         shape: 'box',
         margin: {
-          top: 10,
-          right: 10,
-          bottom: 10,
-          left: 10
+          top: 12,
+          right: 12,
+          bottom: 12,
+          left: 12
         },
-        borderWidth: 1,
-        shadow: true
+        borderWidth: 2,
+        shadow: {
+          enabled: true,
+          color: 'rgba(0,0,0,0.2)',
+          size: 10,
+          x: 5,
+          y: 5
+        },
+        widthConstraint: {
+          minimum: 120,
+          maximum: 200
+        },
+        scaling: {
+          min: 10, // Минимальный размер при отдалении
+          max: 30, // Максимальный размер при приближении
+          label: {
+            enabled: true,
+            min: 12, // Минимальный размер шрифта
+            max: 16, // Максимальный размер шрифта
+            maxVisible: 30, // Максимальный уровень масштаба, при котором показывается текст
+            drawThreshold: 5 // Порог отрисовки текста
+          }
+        },
+        chosen: {
+          node: function(values: any, id: any, selected: any, hovering: any) {
+            values.borderWidth = 3;
+            values.shadowSize = 15;
+            return values;
+          },
+          label: function(values: any, id: any, selected: any, hovering: any) {
+            return values;
+          },
+        }
       }))
     );
 
-    // Создаем ребра
     const edges = new DataSet<Edge>(
       edgesData.map((edge): Edge => ({
         from: edge.from,
@@ -86,13 +126,24 @@ const GraphVisualizer: React.FC<GraphVisualizerProps> = ({
         arrows: {
           to: {
             enabled: true,
-            type: 'arrow'
+            type: 'arrow',
+            scaleFactor: 1.2
           }
         },
         font: {
-          size: 12,
+          size: 14,
           color: edge.color || '#848484',
-          align: 'middle'
+          align: 'middle',
+          face: 'Arial',
+          strokeWidth: 3,
+          strokeColor: '#ffffff',
+          background: 'rgba(255,255,255,0.7)',
+          bold: {
+            color: edge.color || '#848484',
+            size: 14,
+            vadjust: 0,
+            mod: 'bold'
+          }
         },
         smooth: {
           enabled: true,
@@ -100,7 +151,27 @@ const GraphVisualizer: React.FC<GraphVisualizerProps> = ({
           forceDirection: 'horizontal',
           roundness: 0.5
         },
-        width: 1
+        width: 2,
+        selectionWidth: 3,
+        hoverWidth: 3,
+        shadow: {
+          enabled: true,
+          color: 'rgba(0,0,0,0.1)',
+          size: 10,
+          x: 2,
+          y: 2
+        },
+        scaling: {
+          min: 1,
+          max: 3,
+          label: {
+            enabled: true,
+            min: 10,
+            max: 14,
+            maxVisible: 30,
+            drawThreshold: 5
+          }
+        }
       }))
     );
 
@@ -112,25 +183,90 @@ const GraphVisualizer: React.FC<GraphVisualizerProps> = ({
         hierarchical: {
           direction: 'UD',
           sortMethod: 'directed',
-          nodeSpacing: 150,
-          levelSeparation: 150
+          nodeSpacing: 200,
+          levelSeparation: 200,
+          shakeTowards: 'leaves'
         }
       },
       physics: {
         hierarchicalRepulsion: {
-          nodeDistance: 200
+          nodeDistance: 250,
+          centralGravity: 0.1,
+          springLength: 200,
+          springConstant: 0.01,
+          damping: 0.09
+        },
+        solver: 'hierarchicalRepulsion',
+        stabilization: {
+          enabled: true,
+          iterations: 1000,
+          updateInterval: 25
         }
       },
       interaction: {
         hover: true,
-        tooltipDelay: 200
+        tooltipDelay: 200,
+        hideEdgesOnDrag: false,
+        multiselect: true,
+        navigationButtons: true,
+        keyboard: true,
+        zoomView: true,
+        zoomSpeed: 0.5 // Более плавное масштабирование
       },
-      height: '600px'
+      nodes: {
+        font: {
+          size: 16,
+          face: 'Arial',
+          strokeWidth: 3,
+          strokeColor: '#ffffff'
+        }
+      },
+      edges: {
+        font: {
+          size: 14,
+          face: 'Arial',
+          strokeWidth: 3,
+          strokeColor: '#ffffff'
+        }
+      },
+      height: '100%',
+      width: '100%',
+      autoResize: true,
+      configure: {
+        enabled: false,
+        filter: 'nodes,edges',
+        showButton: false
+      }
     };
 
     networkRef.current = new Network(container, graphData, options);
 
+    // Настройка обработчиков для улучшения читаемости
+    networkRef.current.on('zoom', (params: any) => {
+      const scale = params.scale;
+      if (scale < 0.5) {
+        // При сильном отдалении делаем текст более заметным
+        nodes.update(
+          nodes.get().map(node => ({
+            id: node.id,
+            font: {
+              size: Math.max(12, 16 * scale * 2), // Динамический размер шрифта
+              strokeWidth: 4,
+              strokeColor: '#ffffff'
+            }
+          }))
+        );
+      }
+    });
+
+    const handleResize = () => {
+      networkRef.current?.redraw();
+    };
+
+    window.addEventListener('resize', handleResize);
+
     return () => {
+      window.removeEventListener('resize', handleResize);
       networkRef.current?.destroy();
     };
   }, [nodesData, edgesData]);
@@ -140,9 +276,11 @@ const GraphVisualizer: React.FC<GraphVisualizerProps> = ({
       ref={containerRef} 
       style={{ 
         width: '100%', 
-        height: '600px', 
+        height: '70vh',
         border: '1px solid #ccc',
-        backgroundColor: 'white' // Добавьте фон для сохранения
+        backgroundColor: 'white',
+        borderRadius: '4px',
+        boxShadow: '0 2px 10px rgba(0,0,0,0.1)'
       }} 
     />
   );
