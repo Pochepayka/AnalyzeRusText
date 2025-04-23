@@ -31,74 +31,72 @@ const Semantic = () => {
     : [];
 
   const headingText = "Семантический анализ предложения";
+  
+  // Стили для разных частей предложения
+  const getRoleStyle = (role: string) => {
+    const colors: Record<string, string> = {
+      'Подлежащее': '#bbdefb',
+      'Сказуемое': '#c8e6c9',
+      'Дополнение': '#ffecb3',
+      'Определение': '#d1c4e9',
+      'Обстоятельство': '#b2ebf2',
+      'DEFAULT': '#e0e0e0'
+    };
+    return colors[role] || colors['DEFAULT'];
 
-  const getItemData = (item: any) => {
-    if (!item || !item[0] || !item[0].word) {
+  };
+
+  // Стили для частей речи
+  const getTypeStyle = (type: string) => {
+    
+    const colors: Record<string, string> = {
+      'NOUN': '#e1f5fe',
+      'VERB': '#f1f8e9',
+      'ADJF': '#fff8e1',
+      'ADVB': '#f3e5f5',
+      'PRTF': '#e8f5e9',
+      'GRND': '#e0f7fa',
+      'DEFAULT': '#f5f5f5'
+    };
+
+    return colors[type] || colors['DEFAULT'];
+
+  };
+
+
+  const getItemData = (cell: any) => {
+    if (!cell || cell.length == 0 || !cell[0].word ) {
       return <span style={table_styles.emptyValue}>[НЕТ]</span>;
     }
-  
-    const { word, type, part_of_sentence } = item[0];
     
-    // Стили для разных частей предложения
-    const getRoleStyle = (role: string) => {
-      const colors: Record<string, string> = {
-        'Подлежащее': '#bbdefb',
-        'Сказуемое': '#c8e6c9',
-        'Дополнение': '#ffecb3',
-        'Определение': '#d1c4e9',
-        'Обстоятельство': '#b2ebf2',
-        'DEFAULT': '#e0e0e0'
-      };
-      return colors[role] || colors['DEFAULT'];
-  
-    };
-  
-    // Стили для частей речи
-    const getTypeStyle = (type: string) => {
-      
-      const colors: Record<string, string> = {
-        'NOUN': '#e1f5fe',
-        'VERB': '#f1f8e9',
-        'ADJF': '#fff8e1',
-        'ADVB': '#f3e5f5',
-        'PRTF': '#e8f5e9',
-        'GRND': '#e0f7fa',
-        'DEFAULT': '#f5f5f5'
-      };
-
-      return colors[type] || colors['DEFAULT'];
-
-    };
-  
-    return (
-      <div>
+    return cell.map((item, index) => (
+        <div key={index} style={{}}>
         <div style={table_styles.tokenCell}>
-          {word} 
+          {item.word}
         </div>
-        
-        <div style={table_styles.tagsContainer} >
-        
-          <span style={{
-            ...table_styles.tag, 
-            backgroundColor: getRoleStyle(part_of_sentence)
-
-          }}
+        <div style={table_styles.tagsContainer}>
+          <span
+            style={{
+              ...table_styles.tag,
+              backgroundColor: getRoleStyle(item.part_of_sentence)
+            }}
           >
-            {part_of_sentence || 'не опр.'}
+            {item.part_of_sentence || 'не опр.'}
           </span>
-          <span style={{
-            ...table_styles.tag, 
-            backgroundColor: getTypeStyle(type)
-
-          }}
+          <span
+            style={{
+              ...table_styles.tag,
+              backgroundColor: getTypeStyle(item.type)
+            }}
           >
-            {type || 'не опр.'}
+            {item.type || 'не опр.'}
           </span>
-
         </div>
       </div>
-      
-    );
+
+    ));
+
+  
   };
 
   return (
@@ -114,23 +112,35 @@ const Semantic = () => {
           <table style={table_styles.table}>
             <thead>
               <tr>
-                <th style={{...table_styles.tableHeader, width: '35%'}}>Субъект</th>
-                <th style={{...table_styles.tableHeader, width: '30%'}}>Действие</th>
-                <th style={{...table_styles.tableHeader, width: '35%'}}>Объект</th>
+                <th style={{...table_styles.tableHeader, width: '20%'}}>Субъект</th>
+                <th style={{...table_styles.tableHeader, width: '20%'}}>Действие</th>
+                <th style={{...table_styles.tableHeader, width: '20%'}}>Объект</th>
+                <th style={{...table_styles.tableHeader, width: '5%'}}>Инструмент</th>
+                <th style={{...table_styles.tableHeader, width: '5%'}}>Локация</th>
+                <th style={{...table_styles.tableHeader, width: '5%'}}>Время</th>
+                <th style={{...table_styles.tableHeader, width: '15%'}}>Обстоятельство</th>
               </tr>
             </thead>
             <tbody>
               {clausesData.length > 0 ? (
                 clausesData.map((clause: any[], index: number) => {
-                  const subject = clause[1] || [{}];
-                  const action = clause[0] || [{}];
+                  const subject = clause[0] || [{}];
+                  const action = clause[1] || [{}];
                   const object = clause[2] || [{}];
+                  const tool = clause[3] || [{}];
+                  const locate = clause[4] || [{}];
+                  const time = clause[5] || [{}];
+                  const circumstance = clause[6] || [{}];
 
                   return (
                     <tr key={index} style={index % 2 === 0 ? table_styles.tableRow : table_styles.tableRowAlt}>
                       <td style={table_styles.cell}>{getItemData(subject)}</td>
                       <td style={table_styles.cell}>{getItemData(action)}</td>
                       <td style={table_styles.cell}>{getItemData(object)}</td>
+                      <td style={table_styles.cell}>{getItemData(tool)}</td>
+                      <td style={table_styles.cell}>{getItemData(locate)}</td>
+                      <td style={table_styles.cell}>{getItemData(time)}</td>
+                      <td style={table_styles.cell}>{getItemData(circumstance)}</td>
                     </tr>
                   );
                 })

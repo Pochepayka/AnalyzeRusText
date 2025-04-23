@@ -56,7 +56,7 @@ const Home = () => {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch('http://localhost:5000/api/' + optionValue, {
+      const response = await fetch('https://nice-seals-sniff.loca.lt/api/' + optionValue, { //'https://tender-ways-run.loca.lt/api/'
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
