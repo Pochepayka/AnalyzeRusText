@@ -10,7 +10,7 @@ const Semantic = () => {
   const { state } = useLocation();
 
   // Проверка наличия данных
-  if (!state || !state?.data?.data) {
+  if (!state || !state?.data?.semantic_table) {
     return (
       <div style={global_styles.errorContainer}>
         <div style={global_styles.errorCard}>
@@ -26,8 +26,8 @@ const Semantic = () => {
     );
   }
 
-  const clausesData = Array.isArray(state.data.data) 
-    ? state.data.data 
+  const clausesData = Array.isArray(state.data.semantic_table) 
+    ? state.data.semantic_table 
     : [];
 
   const headingText = "Семантический анализ предложения";

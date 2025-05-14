@@ -14,11 +14,11 @@ const Home = () => {
 
   const options = [
     { value: 'GraphematicAnalyze', label: 'Графематический анализ' },
+    { value: 'Spliter', label: 'Разделение на клаузы' },
     { value: 'MorphAnalyze', label: 'Морфологический анализ' },
     { value: 'SintaxisAnalyze', label: 'Синтаксический разбор' },
     { value: 'BuildSintaxisTree', label: 'Построение синтаксического дерева' },
     { value: 'SemanticAnalize', label: 'Семантический анализ' },
-    { value: 'Spliter', label: 'Разделение на клаузы' },
   ];
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,7 +56,13 @@ const Home = () => {
       setIsLoading(true);
       setError(null);
 
-      const response = await fetch('https://nice-seals-sniff.loca.lt/api/' + optionValue, { //'https://tender-ways-run.loca.lt/api/'
+      let apiValue = optionValue;
+      if (optionValue == "BuildSintaxisTree"){
+        apiValue = "SintaxisAnalyze";
+      }
+
+
+      const response = await fetch('http://localhost:5000/api/' + apiValue, { //'https://tender-ways-run.loca.lt/api/'http://localhost:5000
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
