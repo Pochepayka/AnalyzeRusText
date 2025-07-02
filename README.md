@@ -16,11 +16,11 @@ Presenting the results of such processes as raw text data or console outputs mak
 
 <h2>Function</h2>
 
-<h3>Text input and loading.</h3>
+<h3>Text input and loading</h3>
 
 Support for manual text input via a text field. Uploading files in .txt format. The ability to clear the input field and reset the current analysis. 
 
-<h3>Display of the analysis results.</h3> 
+<h3>Display of the analysis results</h3> 
 
 <h4>Graphematic level</h4>
 A table with tokens and their descriptors (RE, LLE, DC, PUN, etc.). 
@@ -43,6 +43,27 @@ To run the web interface on the local host in development mode, use the command:
  
 ### `npm start`
 After open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+
+<h2>Example</h2>
+<h3>Main page</h3>
+<img src = https://github.com/Pochepayka/AnalyzeRusText/blob/master/src/media/png/GUI_main_page.png>
+
+<h3>Graphematic result</h3>
+<img src = https://github.com/Pochepayka/AnalyzeRusText/blob/master/src/media/png/GUI_graph_analyze.png>
+
+
+<h3>Morphological result</h3>
+<img src = https://github.com/Pochepayka/AnalyzeRusText/blob/master/src/media/png/GUI_morph_analyze.png>
+
+<h3>Sintactic result (school)</h3>
+<img src = https://github.com/Pochepayka/AnalyzeRusText/blob/master/src/media/png/GUI_school_sintaxis.png>
+
+<h3>Sintactic result (tree)</h3>
+<img src = https://github.com/Pochepayka/AnalyzeRusText/blob/master/src/media/png/GUI_tree_sintaxis.png>
+
+<h3>Semantic result</h3>
+<img src = https://github.com/Pochepayka/AnalyzeRusText/blob/master/src/media/png/GUI_sematic_analyze.png>
 
 
 
