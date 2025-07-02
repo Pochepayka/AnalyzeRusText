@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+<h1>AnalyzeRusText</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This graphical interface allows you to use a complex linguistic analysis software module as a universal tool. Provides access to 5 types of text analysis from any browser.
 
-## Available Scripts
+The developed website works using API modules included in the [SemanticProgramModule](https://github.com/Pochepayka/SemanticProgramModule).
 
-In the project directory, you can run:
+The development of a graphical interface (GUI) is becoming a key element for the implementation of the semantic analysis software module in practical activities. 
+Its significance is determined by the multilevel nature of the analysis, which covers stages:
+<ul>
+<li>graphematic; </li>
+<li>morphological;</li> 
+<li>syntactic;</li>
+<li>semantic.</li>
+</ul>  
+Presenting the results of such processes as raw text data or console outputs makes it much more difficult to work with complex structures such as syntactic trees or semantic networks. The graphical interface solves this problem by converting information into interactive visual formats that make analysis transparent and interpretable even by untrained users.
 
+<h2>Function</h2>
+
+<h3>Text input and loading.</h3>
+
+Support for manual text input via a text field. Uploading files in .txt format. The ability to clear the input field and reset the current analysis. 
+
+<h3>Display of the analysis results.</h3> 
+
+<h4>Graphematic level</h4>
+A table with tokens and their descriptors (RE, LLE, DC, PUN, etc.). 
+
+<h4>Morphological level</h4>
+Details for each word: lemma, part of speech, grammemes (case, number, gender, tense). 
+
+<h4>Syntactic level</h4>
+Interactive dependency tree with nodes (verbs, nouns) and connections (subject, complement), school format for visualizing the result of syntactic analysis, output of information about the text. 
+
+<h4>Semantic level</h4>
+Visualization of a semantic network in the form of a table of links.
+
+<h3>Exporting the results. </h3>
+
+Saving data in JSON/XML formats for further software processing. CSV is a tabular representation of tokens and descriptors. SVG/PNG reports with visualization of trees. GRAPHML is a graph representation format with information about nodes.
+
+<h2>Launch</h2>
+To run the web interface on the local host in development mode, use the command:
+ 
 ### `npm start`
+After open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
